@@ -32,7 +32,7 @@
     <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-		<property name="url" value="jdbc:sqlserver://188.168.48.117:14333;DatabaseName=anytrack.ru" />
+		<property name="url" value="jdbc:sqlserver://188.168.48.117:1433;DatabaseName=anytrack.ru" />
 		<property name="username" value="taxaadmin" />
 		<property name="password" value="654321" />
     </bean>
