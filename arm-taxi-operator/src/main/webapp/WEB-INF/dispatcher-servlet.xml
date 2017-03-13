@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+       http://www.springframework.org/schema/jee 
+       http://www.springframework.org/schema/jee/spring-jee.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="ru.online76.arm_taxi_operator" />
+	<!-- <mvc:resources mapping="/resources/**" location="/resources/" /> -->
+	<mvc:resources mapping="/fonts/**" location="/fonts/" />
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+
+
+
+	<mvc:annotation-driven> 
+		<mvc:message-converters register-defaults="true">
+	    <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	      <property name="supportedMediaTypes" value = "text/plain;charset=UTF-8" />
+	    </bean>
+	  	</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+
+
+	<bean
+		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url" value="jdbc:sqlserver://192.168.100.238:1433;DatabaseName=taxa" />
+		<property name="username" value="taxaadmin" />
+		<property name="password" value="654321" />
+	</bean>
+<!-- 
+	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="database" value="POSTGRESQL" />
+		<property name="databasePlatform" value="org.hibernate.dialect.PostgreSQL9Dialect" />
+	</bean>
+
+	<bean
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		id="entityManagerFactory">
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
+		<property name="persistenceUnitName" value="developer.remarks.persistence.unit" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+		<property name="jpaDialect" ref="jpaDialect" />
+	</bean>
+	
+	<bean id="transactionManager"
+	      class="org.springframework.orm.jpa.JpaTransactionManager">
+	    <property name="entityManagerFactory" ref="entityManagerFactory"/>
+	    <property name="dataSource" ref="dataSource"/>
+	    <property name="jpaDialect" ref="jpaDialect"/>
+	</bean>
+	-->
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${db.hibernate.dialect}</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.connection.release_mode">auto</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">check</prop>
+				<prop key="hibernate.connection.CharSet">utf8</prop>
+				<prop key="hibernate.connection.characterEncoding">utf8</prop>
+				<prop key="hibernate.connection.useUnicode">true</prop>
+			</props>
+		</property>
+		<property name="packagesToScan" value="ru.online76.arm_taxi_operator" />
+		
+	</bean>
+	
+	 <bean id="transactionManager"
+      class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory" />
+    </bean>   
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>    
+
+	<!-- Most controllers will use the ControllerClassNameHandlerMapping above, 
+		but for the index controller we are using ParameterizableViewController, 
+		so we must define an explicit mapping for it. -->
+
+	<!--- <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"> 
+		<property name="mappings"> <props> <prop key="index.htm">indexController</prop> 
+		</props> </property> </bean> -->
+
+	<!-- указывает где как контроллер ищет VIEW для себя. View возвращаются 
+		по строковому имени view в return контроллера -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
+
+
+
+
+	<!-- The index controller. -->
+
+
+<!-- 
+
+	<bean name="indexController"
+		class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+		p:viewName="index" />
+-->		
+		
+		
+		
+		
+	</beans>
