@@ -1,0 +1,9 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<a href='<c:url value="/Workpoint/WorkpointList"/>'>В работе</a>
+<a href='<c:url value="/Dictionary/List/People"/>'>Люди</a>
+<a href='<c:url value="/Dictionary/List/Address"/>'>Адреса</a>
+<a href='<c:url value="/Dictionary/List/Device"/>'>Устройства</a>
+<hr>
